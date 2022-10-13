@@ -8,11 +8,11 @@ using System.Linq;
 using System.Net;
 using System.Text;
 using System.Threading.Tasks;
+using System.Configuration;
 
 namespace ReadFile
 {   public static class Constants
     {
-        public const string  connectionString = "Data Source=(LocalDB)\\MSSQLLocalDB;Initial Catalog=WORK_TASK;Integrated Security=True";
         public const string url = "https://www.stats.govt.nz/assets/Uploads/Annual-enterprise-survey/Annual-enterprise-survey-2021-financial-year-provisional/Download-data/annual-enterprise-survey-2021-financial-year-provisional-csv.csv";
     }
     class Program
@@ -52,7 +52,7 @@ namespace ReadFile
                 }
 
                 CreateTableInDB();
-                using (var connection = new SqlConnection(Constants.connectionString))
+                using (var connection = new SqlConnection(ConfigurationManager.ConnectionStrings["connStr"].ConnectionString))
                 {
                     connection.Open();
                     using (var sqlBulk = new SqlBulkCopy(connection))
@@ -103,7 +103,7 @@ namespace ReadFile
                         )
                     END
             ";
-            using (var connection = new SqlConnection(Constants.connectionString))
+            using (var connection = new SqlConnection(ConfigurationManager.ConnectionStrings["connStr"].ConnectionString))
             {
                 connection.Open();
                 SqlCommand cmd = new SqlCommand();
